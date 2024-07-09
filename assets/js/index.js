@@ -31,6 +31,7 @@ main_page_btn.addEventListener('click',()=>{
         
         const add_to_cart_btn=ListItem.querySelector('button')
         add_to_cart_btn.addEventListener('click',()=>{
+            add_to_cart_btn.style.display="none"
             test_arr.push(element)
         })
     }
@@ -43,12 +44,38 @@ admin_page_btn.addEventListener('click',()=>{
     title.textContent="Admin"
     main_card_list.innerHTML=``
 })
+let sum=0
+const shopping_card_list=document.querySelector('.shopping_cart')
 cart_page_btn.addEventListener('click',()=>{
     main_page.style.display="none"
     admin_page.style.display="none"
     cart_page.style.display="block"
     title.textContent="Shopping Cart"
     main_card_list.innerHTML=``
+    test_arr.forEach((element)=>{
+        const ListItem=document.createElement('li')
+        ListItem.innerHTML=`<div class="shopping_cart_card">
+                        <img src="./assets/photos/${element.photo}" alt="">
+                        <div class="credits">
+                            <div>
+                                <h2>${element.name}</h2>
+                                <p>Price:${element.price}$</p>
+                            </div>
+                            <div class="shopping_card_input">
+                                <button class="minus">-</button>
+                                <input type="number" value=1>
+                                <button class="plus">+</button>
+                            </div>
+                        </div>
+                    </div>`
+        shopping_card_list.appendChild(ListItem)
+        const input=ListItem.querySelector('input')
+        const plus=ListItem.querySelector('.plus')
+        const minus=ListItem.querySelector('.minus')
+        input.addEventListener('change',()=>{
+            sum+=input.value*element.price
+        })
+    })
 
 })
 
@@ -82,7 +109,6 @@ cart_page_btn.addEventListener('click',()=>{
                 const img=admin_photos.querySelectorAll('img')[i]
                 if(img.style.borderColor=="red"){img.style.borderColor="white"}
             }
-            test_arr=[...new_product]
             console.log(new_product);
         }
         else if(admin_input_name.value=="" || admin_input_price.value==""){
